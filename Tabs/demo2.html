@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Tabs标签页</title>
+  <title>Tabs标签页效果优化</title>
   <style>
     div.container {
       max-width: 800px;
@@ -15,6 +15,7 @@
       padding: 16px;
     }
     div.header {
+      position: relative;
       font-size: 15px;
       display: flex;
       border-bottom: 2px solid rgba( 0, 0, 0, 0.3);
@@ -27,8 +28,8 @@
     }
     div.header .tab-header.active {
       color: #409eff;
-      border-bottom: 2px solid;
-      margin-bottom: -2px;
+      /* border-bottom: 2px solid;
+      margin-bottom: -2px; */
     }
 
     div.content .tab-panel{
@@ -36,6 +37,21 @@
     }
     div.content .tab-panel.active {
       display: block;
+    }
+
+    div.header .line {
+      position: absolute;
+
+      /* width: 50px;  暂定,修改为60px */
+      width: 60px;
+      height: 2px;
+      background-color: #409eff;
+      top: 100%;
+
+      transform:translateX(0px);  /* 最后成型时添加的 */
+
+      /* 添加过渡效果 */
+      transition: all .8s;
     }
   </style>
 </head>
@@ -47,6 +63,7 @@
       <span class="tab-header">配置管理</span>
       <span class="tab-header">角色管理</span>
       <span class="tab-header">定时任务补偿</span>
+      <span class="line"></span>
     </div>
     <div class="content">
       <div class="tab-panel active">用户管理</div>
@@ -58,12 +75,22 @@
   <script>
     let $$headerList = document.querySelectorAll('.tab-header')
     let $$panelList = document.querySelectorAll('.tab-panel')
+    let $line = document.querySelector('div.header .line')
     
 
-    $$headerList.forEach($tab => $tab.onclick = function() {
+    $$headerList.forEach(
+      $tab => $tab.onclick = function() {
 
       $$headerList.forEach($tab => $tab.classList.remove('active'))
       this.classList.add('active')
+
+      //添加
+      // console.log(this.offsetWidth)
+      // console.log(this.offsetLeft)
+      // console.log($line.style)
+      $line.style.width = this.offsetWidth + 'px'
+      $line.style.transform = `translateX(${this.offsetLeft}px)`
+      
 
       let index = [...$$headerList].indexOf(this)
       $$panelList.forEach($tab => $tab.classList.remove('active'))

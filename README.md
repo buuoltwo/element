@@ -8,6 +8,7 @@
       - div.header => Tabs标签页: span.tab-header
       - div.content => Tabs面板：div.tab-panel
   - CSS
+    - div.container 设置最大宽度，margin居中,加浅浅的边框 //h4的margin很大给container加一个小些的padding 16px
     - tab-header 在效果页选中elements查看颜色，规划字体大小，padding等等
     - tab-panel
       - 给第0个tab-panel加一个active样式~
