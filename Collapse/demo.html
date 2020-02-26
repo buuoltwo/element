@@ -12,10 +12,28 @@
     padding: 16px;
   }
   .container .item .header {
+    display: flex;
+    align-items: center;
+
     cursor: pointer;
     font-size: 13px;
     line-height: 2;
     border-top: 1px solid #ddd;
+  }
+  .container .item .header::after {
+    content: '';
+    /* display: block; */
+    margin-left: auto;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    transition: all .8s;
+
+    border-top: 1px solid #303030;
+    border-right: 1px solid #303030;
+  }
+  .container .item.active .header::after {
+    transform: rotate(135deg);
   }
   .container .item:last-child {
     border-bottom: 1px solid #ddd;
