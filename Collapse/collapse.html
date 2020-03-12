@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collapse_review</title>
+  <style>
+    .container {
+    max-width: 800px;
+    margin: 30px auto;
+    box-shadow: 0 0 2px 0;
+    padding: 16px;
+  }
+  .container .item .header {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 2;
+    border-top: 1px solid #ddd;
+  }
+  .container .item:last-child {
+    border-bottom: 1px solid #ddd;
+  }
+
+
+
+  .container .item .panel {
+    overflow: hidden;
+    height: 0;
+    transition: all .3s;
+  }
+  .container .item.active .header {
+    color:blueviolet;
+  }
+  .container .item.active .panel {
+    /* height: 100px; */
+    height: auto;
+    padding-bottom: 10px;
+  }
+  .container .item .header::after {
+    content:'';
+    width: 5px;
+    height: 5px;
+    border-top: 1px solid #303030;
+    border-right: 1px solid #303030;
+    margin-left: auto;
+    margin-right: 10px;
+    transform: rotate(45deg);
+
+    transition: all .8s;
+    
+  }
+  .container .item.active .header::after {
+    transform: rotate(135deg)
+  }
+
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <h4>type=1为手风琴【有约束】</h4>
+    <div class="item active">
+      <div class="header">遇到困难不要怕1</div>
+      <div class="panel">温柔微笑面对它<br>
+      奥里给</div>
+    </div>
+    <div class="item">
+        <div class="header">遇到困难不要怕2</div>
+        <div class="panel ">温柔微笑面对它<br>
+        奥里给</div>
+      </div>
+      <div class="item">
+          <div class="header">遇到困难不要怕3</div>
+          <div class="panel ">温柔微笑面对它<br>
+          奥里给</div>
+        </div>
+        <div class="item">
+            <div class="header">遇到困难不要怕4</div>
+            <div class="panel">温柔微笑面对它<br>
+            奥里给</div>
+          </div>
+  </div>
+  <div class="container">
+      <h4>type=2为折叠面板【无约束】</h4>
+      <div class="item active">
+        <div class="header">遇到困难不要怕1</div>
+        <div class="panel">温柔微笑面对它<br>
+        奥里给</div>
+      </div>
+      <div class="item">
+          <div class="header">遇到困难不要怕2</div>
+          <div class="panel ">温柔微笑面对它<br>
+          奥里给</div>
+        </div>
+        <div class="item">
+            <div class="header">遇到困难不要怕3</div>
+            <div class="panel ">温柔微笑面对它<br>
+            奥里给</div>
+          </div>
+          <div class="item">
+              <div class="header">遇到困难不要怕4</div>
+              <div class="panel">温柔微笑面对它<br>
+              奥里给</div>
+            </div>
+    </div>
+    <script>
+      class Collapse {
+        constructor($container,type = 1) {
+          this.$container = $container;
+          this.type = type;
+          this.$$items = $container.querySelectorAll('.item')
+
+          this.bind()
+        }
+
+        bind() {
+          let self = this
+          if(this.type === 1) {
+            this.$$items.forEach( $node => {
+              $node.onclick = function() {
+                self.$$items.forEach($node => $node.classList.remove('active'))
+                $node.classList.add('active')
+
+              }
+              
+            })
+          }
+          else {
+            this.$$items.forEach( $node => {
+              $node.onclick = function() {
+                // self.$$items.forEach($node => $node.classList.remove('active'))
+                $node.classList.toggle('active')
+
+              }
+              
+            })
+          }
+        }
+      }
+
+      new Collapse(document.querySelectorAll('.container')[0], 1)
+      new Collapse(document.querySelectorAll('.container')[1], 2)
+
+    </script>
+</body>
+</html>

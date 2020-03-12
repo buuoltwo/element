@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tab选项卡</title>
+  <style>
+  .container {
+    max-width: 800px;
+    margin: 30px auto;
+    border-radius: 4px;
+    box-shadow: 0 0 2px 0;
+    padding: 16px;
+  }
+  .header {
+    border-bottom: 2px solid #eee;
+    display: flex;
+    padding: 5px;
+    position: relative;
+    
+  }
+  .header .tab-header {
+
+    margin-right: 15px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #303030;
+    cursor:pointer;
+
+  }
+  .header .tab-header.active {
+    color: blueviolet;
+  }
+  .header .line {
+    position: absolute;
+    width: 50px;
+    height: 2px;
+    background: blueviolet;
+    top: 100%;
+    left: 0;
+    transition: all .8s;
+  }
+  .content .tab-panel {
+    margin-top: 10px;
+    height: 30vh;
+    display: none;
+  }
+  .content .tab-panel.active {
+    display: block;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tabs_review</h2>
+    <div class="header">
+      <div class="tab-header active">夜空中1</div>
+      <div class="tab-header">夜空中2</div>
+      <div class="tab-header">夜空中3</div>
+      <div class="tab-header">夜空中最亮的星</div>
+      <span class="line"></span>
+    </div>
+    <div class="content">
+      <div class="tab-panel active">夜空中1</div>
+      <div class="tab-panel">夜空中2</div>
+      <div class="tab-panel">夜空中3</div>
+      <div class="tab-panel">夜空中最亮的星</div>
+
+    </div>
+  </div>
+  <script>
+    let $ = s => document.querySelector(s)
+    let $$ = s => document.querySelectorAll(s)  
+
+  
+    class Tabs {
+      constructor($container) {
+        this.$container = $container;
+        this.$$headers = $container.querySelectorAll('.tab-header')
+        this.$line = $container.querySelector('.line')
+        this.$$panels = $container.querySelectorAll('.tab-panel')
+
+        this.init()
+        this.bind()
+      }
+
+
+      init() {
+        // console.log(this.$line.style.width)
+        // console.log(this.$$headers[0].offsetWidth)
+        this.$line.style.width =`${this.$$headers[0].offsetWidth}px`
+      }
+      bind() {
+        let self = this
+        this.$$headers.forEach( $node => {
+          $node.onclick = function(e) {
+            // console.log(this)
+            self.$$headers.forEach( $node => $node.classList.remove('active'))
+            this.classList.add('active')
+            // console.log(this.offsetWidth)
+
+            self.$line.style.width = `${$node.offsetWidth}px`
+            self.$line.style.transform = `translateX(${$node.offsetLeft}px)`
+
+            self.$$panels.forEach($node => $node.classList.remove('active'))
+            // let index = self.$$headers.indexOf(this)
+            let index = [...self.$$headers].indexOf(this)
+            self.$$panels[index].classList.add('active')
+
+            
+          }
+          //下面这段逻辑错误。应放在onclick事件中。
+          // console.log(this)
+          // this.$line.style.width = $node.offsetWidth
+
+        })
+      }
+      
+    }
+
+    // $$headers.forEach( $node => new Tab($node) )
+    $$('.container').forEach($node => new Tabs($node))
+  </script>
+</body>
+</html>
