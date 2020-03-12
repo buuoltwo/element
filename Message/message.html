@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message消息提示</title>
+  <style>
+  .container {
+    max-width: 800px;
+    margin: 30px auto;
+    border-radius: 4px;
+    box-shadow: 0 0 4px 0px rgba(0, 0, 0,  0.3);
+    padding: 16px;
+  }
+
+  .button {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #303030;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+  }
+  .button:hover {
+    border-color: lightskyblue;
+    color: lightskyblue
+  }
+
+  .message {
+    box-shadow: 0 0 2px 0;
+    border-radius: 2px;
+    position: fixed;
+    padding: 8px;
+    left: 50%;
+    top: 30px;
+    /* transform: translate(-50%); */
+    transform: translate(-50%, -80px);
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: all .3s;
+
+
+    display: flex;
+
+  }
+  .message.show {
+    transform: translate(-50%, 30px);
+  }
+  .message.success {
+    background: teal;
+  }
+  .message.warning {
+    background: tomato;
+  }
+  .message.info {
+    background: rosybrown;
+  }
+  .message.danger {
+    background: khaki;
+  }
+
+  .clo {
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Message消息提示</h2>
+    <div class="btn-group">
+      <button id="btn-success" class="button">成功</button>
+      <button id="btn-warning" class="button">警告</button>
+      <button id="btn-info" class="button">消息</button>
+      <button id="btn-danger" class="button">错误</button>
+    </div>
+  </div>
+</body>
+<script>
+  class Message {
+    constructor({type='success',text='',flag=true}) {
+      this.type = type;
+      this.text = text;
+      this.flag = flag;
+
+      this.render()
+      this.bind()
+    }
+
+    render() {
+      this.$div = document.createElement('div')
+      this.$text = document.createTextNode(this.text)
+      this.$div.appendChild(this.$text)
+      document.body.appendChild(this.$div)
+      this.$div.classList.add('message')
+      this.$div.classList.add(this.type)
+
+      if(!this.flag) {
+        this.$clo = document.createElement('span')
+        this.$clo.innerText = '❌'
+        this.$clo.classList.add('clo')
+        this.$div.appendChild(this.$clo)
+      }
+
+    }
+    bind(){
+      let self = this
+      setTimeout(()=> this.show(), 0)
+      if(this.flag) {
+        setTimeout(()=> this.destroy(), 2000)
+      }
+      else {
+        this.$clo.onclick = function(){
+          self.destroy();
+          
+        }
+      }
+      
+    }
+    show() {
+      this.$div.classList.add('show')
+    }
+    destroy() {
+      this.$div.classList.remove('show')
+      setTimeout(() => this.$div.parentNode.removeChild(this.$div), 4000)
+    }
+
+  }
+
+  let $ = s => document.querySelector(s)
+  $('#btn-success').onclick = function() {
+    new Message({text:'我成功了!?',flag: true})
+  }
+  $('#btn-warning').onclick = function() {
+    new Message({type:'warning', text:'被警告了!?', flag: false})
+  }
+  $('#btn-info').onclick = function() {
+    new Message({type:'info', text:'温馨提示!?', flag: true})
+  }
+  $('#btn-danger').onclick = function() {
+    new Message({type:'danger', text:'系统警告！！', flag: false})
+  }
+  
+</script>
+</html>
